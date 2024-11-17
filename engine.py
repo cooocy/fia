@@ -27,3 +27,7 @@ def delete_by_id_or_alias(id_or_alias: str):
 
 def find_by_id_or_alias(id_or_alias: str) -> Note:
     return repository.find_by_id_or_alias(id_or_alias)
+
+
+def ls(marker: str, size: int, tags: list[str]) -> list[Note]:
+    return repository.ls(marker, size, tags)

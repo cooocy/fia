@@ -5,12 +5,29 @@ import engine
 
 
 def ls(args: dict):
-    return 'This is ls.'
+    tag = args.get('tag')
+    if tag is None or tag == '':
+        tag = []
+    marker = args.get('marker')
+    if marker is None:
+        marker = ''
+    size = args.get('size')
+    if size is None or size == '':
+        size = 100
+    notes = engine.ls(marker, size, tag)
+    r = ''
+    if args['verbose']:
+        for note in notes:
+            r += f'{note.id}    {note.alias}    {note.tags}    {note.ts}    {note.content_overview()}\n'
+    else:
+        for note in notes:
+            r += f'{note.id}    {note.alias}    {note.content_overview()}\n'
+    return r
 
 
 def w(args: dict) -> str:
     note = engine.new_note(args['content'], args['alias'], args['tag'])
-    return f'fia: Saved ok. id: {note.id}'
+    return f'fia: Saved ok. id: {note.id}, alias: {note.alias}'
 
 
 def rm(args: dict):

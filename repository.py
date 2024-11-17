@@ -58,33 +58,15 @@ def save(note: Note):
         index_f.write('\n')
     with open(__get_content_path(note.id), 'w') as content_f:
         content_f.write(note.content)
-    print(f'Saved successfully! note: {note}')
 
 
 def delete(note: Note):
     print(f'Deleted successfully! note: {note}')
 
 
-def find_by_id_or_alias(id_or_alias: str):
-    if not os.path.exists(index_path):
-        return None
-    note = None
-    with open(index_path, 'r') as index_f:
-        for line in index_f:
-            blobs = line.split(INDEX_SEPARATOR)
-            if blobs[0] == id_or_alias or blobs[1] == id_or_alias:
-                note = __deserialize_from_index(line)
-                break
-    if note is not None:
-        if os.path.exists(__get_content_path(note.id)):
-            with open(__get_content_path(note.id), 'r') as content_f:
-                note.content = content_f.read()
-        else:
-            print(f'The index not match the content, please rm the note(id: {note.id})')
-    return note
-
-
 def delete_by_alias(alias: str):
+    if not os.path.exists(index_path):
+        return
     # First read all lines and then write back line by line, compare the alias, if equals, ignore.
     with open(index_path, 'r') as index_f:
         lines = index_f.readlines()
@@ -121,3 +103,39 @@ def delete_by_id_or_alias(id_or_alias: str):
             path_to_delete = __get_content_path(id_to_delete)
             if os.path.exists(path_to_delete):
                 os.remove(path_to_delete)
+
+
+def find_by_id_or_alias(id_or_alias: str):
+    if not os.path.exists(index_path):
+        return None
+    note = None
+    with open(index_path, 'r') as index_f:
+        for line in index_f:
+            blobs = line.split(INDEX_SEPARATOR)
+            if blobs[0] == id_or_alias or blobs[1] == id_or_alias:
+                note = __deserialize_from_index(line)
+                break
+    if note is not None:
+        if os.path.exists(__get_content_path(note.id)):
+            with open(__get_content_path(note.id), 'r') as content_f:
+                note.content = content_f.read()
+        else:
+            print(f'The index not match the content, please rm the note(id: {note.id})')
+    return note
+
+
+def ls(marker: str, size: int, tags: list[str]):
+    if not os.path.exists(index_path):
+        return None
+    with open(index_path, 'r') as index_f:
+        picked = []
+        for line in index_f:
+            blobs = line.split(INDEX_SEPARATOR)
+            if blobs[0] < marker:
+                continue
+            note = __deserialize_from_index(line)
+            if len(tags) == 0 or set(note.tags).intersection(set(tags)):
+                picked.append(note)
+            if len(picked) >= size:
+                break
+        return picked

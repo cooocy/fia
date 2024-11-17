@@ -6,12 +6,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Hi~ This is fia, your cli note assistant.')
     subparsers = parser.add_subparsers(dest='sub_cmd', help='you can ...')
 
-    # fia ls [-h] [-t TAG] [-a | -s SIZE]
+    # fia ls [-h] [-t TAG] [-m MARKER] [-s SIZE]
     ls = subparsers.add_parser('ls', help='List your notes in fia.')
-    ls.add_argument('-t', '--tag', type=str, default='', required=False, help='filtered by TAG contains')
-    ls_g1 = ls.add_mutually_exclusive_group()
-    ls_g1.add_argument('-a', '--all', action='store_true', required=False, help='list all')
-    ls_g1.add_argument('-s', '--size', type=int, default=5, required=False, help='list by size')
+    ls.add_argument('-t', '--tag', type=str, default=[], required=False, nargs='+', help='filtered by TAG contains')
+    ls.add_argument('-m', '--marker', type=str, required=False, help='list by id ge this marker')
+    ls.add_argument('-s', '--size', type=int, default=100, required=False, help='list by size, default 100')
+    ls.add_argument('-v', '--verbose', action='store_true', required=False, help='be a little more verbose')
+    # ls_g1 = ls.add_mutually_exclusive_group()
 
     # fia w [-h] [-c CONTENT] [-a <ALIAS>] [-t <TAG>]
     w = subparsers.add_parser('w', help='Write your note into fia.')

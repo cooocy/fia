@@ -7,11 +7,14 @@ class Note:
     id: str
     content: str
     alias: str
-    tags: []
+    tags: list[str]
     ts: datetime
 
     def __str__(self):
-        n = self.content[:min(10, len(self.content))]
-        if len(n) < len(self.content):
-            n += '...'
-        return f'Note(id: {self.id}, content:{n}, alias: {self.alias},tags: {self.tags}, ts:{self.ts})'
+        return f'Note(id: {self.id}, content:{self.content_overview()}, alias: {self.alias},tags: {self.tags}, ts:{self.ts})'
+
+    def content_overview(self) -> str:
+        overview = self.content[:min(30, len(self.content))]
+        if len(overview) < len(self.content):
+            overview += ' ... '
+        return overview
