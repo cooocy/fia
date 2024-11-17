@@ -60,6 +60,21 @@ def save(note: Note):
         content_f.write(note.content)
 
 
+def delete_all() -> int:
+    if not os.path.exists(index_path):
+        return 0
+    ids = []
+    with open(index_path, 'r') as index_f:
+        for line in index_f.readlines():
+            blobs = line.split(INDEX_SEPARATOR)
+            ids.append(blobs[0])
+    os.remove(index_path)
+    for id in ids:
+        if os.path.exists(__get_content_path(id)):
+            os.remove(__get_content_path(id))
+    return len(ids)
+
+
 def delete(note: Note):
     print(f'Deleted successfully! note: {note}')
 
@@ -120,7 +135,7 @@ def find_by_id_or_alias(id_or_alias: str):
             with open(__get_content_path(note.id), 'r') as content_f:
                 note.content = content_f.read()
         else:
-            print(f'The index not match the content, please rm the note(id: {note.id})')
+            print(f'fia: The index not match the content, please rm the note(id: {note.id})')
     return note
 
 

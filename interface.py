@@ -43,6 +43,15 @@ def rm(args: dict):
     return 'fia: Removed ok.'
 
 
+def clean(args: dict) -> str:
+    user_input = input('fia: Do you want to continue? (yes/no): ').strip().lower()
+    if user_input == 'yes':
+        cnt = engine.clean()
+        return f'fia: Removed {cnt} notes.'
+    else:
+        return 'fia: Canceled.'
+
+
 def cat(args: dict) -> str:
     id_or_alias = args['id_or_alias']
     note = engine.find_by_id_or_alias(id_or_alias)

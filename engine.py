@@ -15,6 +15,10 @@ def new_note(content: str = '', alias: str = '', tags: list[str] = ()) -> Note:
     return note
 
 
+def clean() -> int:
+    return repository.delete_all()
+
+
 def delete_by_id_or_alias(id_or_alias: str):
     repository.delete_by_id_or_alias(id_or_alias)
 
