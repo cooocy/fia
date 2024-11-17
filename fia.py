@@ -17,8 +17,13 @@ if __name__ == '__main__':
     w = subparsers.add_parser('w', help='Write your note into fia.')
     w.add_argument('-c', '--content', type=str, default='', required=False,
                    help='the note content you want to write. if not specified, read from the clipboard')
-    w.add_argument('-a', '--alias', type=str, default='', required=False, help='the alise of this note')
+    w.add_argument('-a', '--alias', type=str, default='', required=False,
+                   help='the alise of this note, global unique, override when duplicate')
     w.add_argument('-t', '--tag', type=str, default=[], required=False, nargs='+', help='the tags of this note')
+
+    # fia rm [-h] id_or_alias
+    rm = subparsers.add_parser('rm', help='Remove your note in fia.')
+    rm.add_argument('id_or_alias', type=str, help='the note id or alise')
 
     # fia cat [-h] [-v] id_or_alias
     cat = subparsers.add_parser('cat', help='Cat your note in fia.')

@@ -65,19 +65,9 @@ def delete(note: Note):
     print(f'Deleted successfully! note: {note}')
 
 
-def find(id: str) -> Note:
-    with open(index_path, 'r') as index_f:
-        for line in index_f:
-            blobs = line.split(INDEX_SEPARATOR)
-            if blobs[0] == id:
-                note = __deserialize_from_index(line)
-                break
-    with open(__get_content_path(id), 'r') as content_f:
-        note.content = content_f.read()
-    return note
-
-
-def find_by_id_or_alias(id_or_alias: str) -> Note:
+def find_by_id_or_alias(id_or_alias: str):
+    if not os.path.exists(index_path):
+        return None
     note = None
     with open(index_path, 'r') as index_f:
         for line in index_f:
@@ -86,10 +76,48 @@ def find_by_id_or_alias(id_or_alias: str) -> Note:
                 note = __deserialize_from_index(line)
                 break
     if note is not None:
-        with open(__get_content_path(note.id), 'r') as content_f:
-            note.content = content_f.read()
+        if os.path.exists(__get_content_path(note.id)):
+            with open(__get_content_path(note.id), 'r') as content_f:
+                note.content = content_f.read()
+        else:
+            print(f'The index not match the content, please rm the note(id: {note.id})')
     return note
 
 
-def find_by_alias(alias: str) -> Note:
-    return None
+def delete_by_alias(alias: str):
+    # First read all lines and then write back line by line, compare the alias, if equals, ignore.
+    with open(index_path, 'r') as index_f:
+        lines = index_f.readlines()
+    id_to_delete = '-1'
+    with open(index_path, 'w') as index_f:
+        for line in lines:
+            blobs = line.split(INDEX_SEPARATOR)
+            if blobs[1] == alias:
+                # This one will be deleted, record its id.
+                id_to_delete = blobs[0]
+            else:
+                index_f.write(line)
+    if id_to_delete != '-1':
+        path_to_delete = __get_content_path(id_to_delete)
+        if os.path.exists(path_to_delete):
+            os.remove(path_to_delete)
+
+
+def delete_by_id_or_alias(id_or_alias: str):
+    # First read all lines and then write back line by line, compare the alias, if equals, ignore.
+    if os.path.exists(index_path):
+        with open(index_path, 'r') as index_f:
+            lines = index_f.readlines()
+        id_to_delete = '-1'
+        with open(index_path, 'w') as index_f:
+            for line in lines:
+                blobs = line.split(INDEX_SEPARATOR)
+                if blobs[0] == id_or_alias or blobs[1] == id_or_alias:
+                    # This one will be deleted, record its id.
+                    id_to_delete = blobs[0]
+                else:
+                    index_f.write(line)
+        if id_to_delete != '-1':
+            path_to_delete = __get_content_path(id_to_delete)
+            if os.path.exists(path_to_delete):
+                os.remove(path_to_delete)

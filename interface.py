@@ -10,7 +10,13 @@ def ls(args: dict):
 
 def w(args: dict) -> str:
     note = engine.new_note(args['content'], args['alias'], args['tag'])
-    return f'fia: Saved successfully. id: {note.id}'
+    return f'fia: Saved ok. id: {note.id}'
+
+
+def rm(args: dict):
+    id_or_alias = args['id_or_alias']
+    engine.delete_by_id_or_alias(id_or_alias)
+    return 'fia: Removed ok.'
 
 
 def cat(args: dict) -> str:
@@ -22,4 +28,4 @@ def cat(args: dict) -> str:
         else:
             return note.content
     else:
-        return 'fia: Not Found.'
+        return 'fia: Not found.'
