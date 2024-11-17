@@ -17,6 +17,9 @@ def cat(args: dict) -> str:
     id_or_alias = args['id_or_alias']
     note = engine.find_by_id_or_alias(id_or_alias)
     if note:
-        return note.__str__()
+        if args['verbose']:
+            return note.__str__()
+        else:
+            return note.content
     else:
         return 'fia: Not Found.'
