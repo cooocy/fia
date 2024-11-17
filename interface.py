@@ -9,5 +9,5 @@ def ls(args: dict):
 
 
 def w(args: dict) -> str:
-    note = engine.new_note(args['content'], args['alias'], args['keyword'])
+    note = engine.new_note(args['content'], args['alias'], args['tag'])
     return f'fia: Saved successfully. id: {note.id}'
