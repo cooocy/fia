@@ -1,6 +1,5 @@
 #!/opt/homebrew/bin//python
 import argparse
-
 import interface
 
 if __name__ == '__main__':

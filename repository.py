@@ -2,13 +2,12 @@
 This layer interacts with the disk, used for storing and retrieving notes.
 """
 import base64
-import os.path
-
 import config_loader
+import os.path
+from datetime import datetime
 from domains import Note
 
 INDEX_SEPARATOR = '%'
-
 storage = config_loader.storage__
 if not os.path.exists(storage.path):
     os.makedirs(storage.path)
@@ -22,7 +21,8 @@ def __get_content_path(__id: str):
 def __deserialize_from_index(line: str) -> Note:
     blobs = line.split(INDEX_SEPARATOR)
     tags_str = blobs[2].replace(' ', '').replace("'", "").replace('[', '').replace(']', '')
-    return Note.new(blobs[0], base64.b64decode(blobs[4].encode()).decode(), blobs[1], tags_str.split(','), blobs[3])
+    ts = datetime.strptime(blobs[3], '%Y-%m-%d %H:%M:%S.%f')
+    return Note(blobs[0], base64.b64decode(blobs[4].encode()).decode(), blobs[1], tags_str.split(','), ts)
 
 
 def __serialize_to_index(note: Note) -> str:
