@@ -1,6 +1,7 @@
 """
 This layer is responsible for handling the command line args and then calling the engine.
 """
+import clipboard
 import engine
 
 
@@ -26,7 +27,13 @@ def ls(args: dict):
 
 
 def w(args: dict) -> str:
-    note = engine.new_note(args['content'], args['alias'], args['tag'])
+    content = args['content']
+    if content == '':
+        content = str(clipboard.get().decode())
+    if content == '':
+        print('fia: Can not read from clipboard.')
+        exit(1)
+    note = engine.new_note(content, args['alias'], args['tag'])
     return f'fia: Saved ok. id: {note.id}, alias: {note.alias}'
 
 
@@ -39,10 +46,14 @@ def rm(args: dict):
 def cat(args: dict) -> str:
     id_or_alias = args['id_or_alias']
     note = engine.find_by_id_or_alias(id_or_alias)
-    if note:
+    if not note:
+        return 'fia: Not found.'
+
+    if args['clipboard']:
+        clipboard.set(note.content)
+        return 'fia: Catted to clipboard.'
+    else:
         if args['verbose']:
             return note.__str__()
         else:
             return note.content
-    else:
-        return 'fia: Not found.'

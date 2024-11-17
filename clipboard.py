@@ -16,6 +16,7 @@ def get():
     b = p.stdout.read()
     if return_code != 0:
         print(f'fia: Read from system clipboard error. code: {return_code}')
+        exit(1)
     return b
 
 
@@ -31,3 +32,4 @@ def set(data: str):
     return_code = p.wait()
     if return_code != 0:
         print(f'fia: Set to system clipboard error. code: {return_code}')
+        exit(1)
