@@ -19,9 +19,8 @@ class Note:
         note.ts = ts
         return note
 
-
-def __str__(self):
-    n = self.content[:min(10, len(self.content))]
-    if len(n) < len(self.content):
-        n += '...'
-    return f'Note(id: {self.id}, content:{n}, alias: {self.alias},tags: {self.tags}, ts:{self.ts})'
+    def __str__(self):
+        n = self.content[:min(10, len(self.content))]
+        if len(n) < len(self.content):
+            n += '...'
+        return f'Note(id: {self.id}, content:{n}, alias: {self.alias},tags: {self.tags}, ts:{self.ts})'

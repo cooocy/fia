@@ -21,6 +21,10 @@ if __name__ == '__main__':
     w.add_argument('-a', '--alias', type=str, default='', required=False, help='the alise of this note')
     w.add_argument('-t', '--tag', type=str, default=[], required=False, nargs='+', help='the tags of this note')
 
+    # fia cat [-h] id_or_alias
+    cat = subparsers.add_parser('cat', help='Cat your note in fia.')
+    cat.add_argument('id_or_alias', type=str, help='the note id or alise')
+
     args = parser.parse_args()
     ret = getattr(interface, args.sub_cmd)(vars(args))
     print(ret)

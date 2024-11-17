@@ -53,8 +53,9 @@ def save(note: Note):
         note.id = '1'
 
     # Save index and content.
-    with open(index_path, 'w') as index_f:
+    with open(index_path, 'a') as index_f:
         index_f.write(__serialize_to_index(note))
+        index_f.write('\n')
     with open(__get_content_path(note.id), 'w') as content_f:
         content_f.write(note.content)
     print(f'Saved successfully! note: {note}')
@@ -70,8 +71,23 @@ def find(id: str) -> Note:
             blobs = line.split(INDEX_SEPARATOR)
             if blobs[0] == id:
                 note = __deserialize_from_index(line)
+                break
     with open(__get_content_path(id), 'r') as content_f:
         note.content = content_f.read()
+    return note
+
+
+def find_by_id_or_alias(id_or_alias: str) -> Note:
+    note = None
+    with open(index_path, 'r') as index_f:
+        for line in index_f:
+            blobs = line.split(INDEX_SEPARATOR)
+            if blobs[0] == id_or_alias or blobs[1] == id_or_alias:
+                note = __deserialize_from_index(line)
+                break
+    if note is not None:
+        with open(__get_content_path(note.id), 'r') as content_f:
+            note.content = content_f.read()
     return note
 
 

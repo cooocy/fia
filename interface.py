@@ -11,3 +11,12 @@ def ls(args: dict):
 def w(args: dict) -> str:
     note = engine.new_note(args['content'], args['alias'], args['tag'])
     return f'fia: Saved successfully. id: {note.id}'
+
+
+def cat(args: dict) -> str:
+    id_or_alias = args['id_or_alias']
+    note = engine.find_by_id_or_alias(id_or_alias)
+    if note:
+        return note.__str__()
+    else:
+        return 'fia: Not Found.'

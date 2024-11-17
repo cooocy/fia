@@ -20,3 +20,7 @@ def new_note(content: str = '', alias: str = '', tags: list[str] = ()) -> Note:
             repository.delete(note_with_same_alise)
     repository.save(note)
     return note
+
+
+def find_by_id_or_alias(id_or_alias: str) -> Note:
+    return repository.find_by_id_or_alias(id_or_alias)
