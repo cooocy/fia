@@ -1,12 +1,18 @@
 """
-This layer is responsible for handling the requests from command line, and then calling the system clipboard.
+This layer is responsible for handling the command line args and then calling the engine.
 """
-import clipboard
 import engine
 from domains import Note
 
 
 def new_note_from_clipboard(alias: str = '', keywords: list[str] = ()) -> Note:
-    note = Note(str(clipboard.get().decode()), alias, keywords)
-    note = engine.new_note(note)
+    note = engine.new_note_from_clipboard(alias, keywords)
     return note
+
+
+def ls(args: dict):
+    return 'This is ls.'
+
+
+def w(args: dict):
+    return 'This is w.'

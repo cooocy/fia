@@ -1,8 +1,13 @@
+"""
+This is the core layer, connect the upper-level interface and the lower-level repository.
+"""
+import clipboard
 import repository
 from domains import Note
 
 
-def new_note(note: Note) -> Note:
+def new_note_from_clipboard(alias: str = '', keywords: list[str] = ()) -> Note:
+    note = Note(str(clipboard.get().decode()), alias, keywords)
     # TODO set up id.
     note.id = 100
     # The same alias will overwrite the original note.
