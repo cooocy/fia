@@ -49,6 +49,9 @@ def w(args: dict) -> str:
     if content == '':
         print(f'{Fore.RED}fia: Can not read from clipboard.{Style.RESET_ALL}')
         exit(1)
+    if any(t.__contains__(',') for t in args['tag']):
+        print(f'{Fore.RED}fia: Tag can not contains `,`.{Style.RESET_ALL}')
+        exit(1)
     note = engine.new_note(content, args['alias'], args['tag'])
     return f'{Fore.GREEN}fia: Saved ok. id: {note.id}, alias: {note.alias}{Style.RESET_ALL}'
 
