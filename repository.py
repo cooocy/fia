@@ -3,6 +3,7 @@ This layer interacts with the disk, used for storing and retrieving notes.
 """
 import base64
 import config_loader
+import kits
 import os.path
 from datetime import datetime
 from domains import Note
@@ -11,7 +12,7 @@ INDEX_SEPARATOR = '%'
 storage = config_loader.storage__
 if not os.path.exists(storage.path):
     os.makedirs(storage.path)
-index_path = os.path.join(storage.path, 'index')
+index_path = os.path.join(kits.current_path(), storage.path, 'index')
 
 
 def __get_content_path(__id: str):
