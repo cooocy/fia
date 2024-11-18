@@ -142,7 +142,7 @@ def find_by_id_or_alias(id_or_alias: str):
 
 def ls(marker: str, size: int, tags: list[str]):
     if not os.path.exists(index_path):
-        return None
+        return []
     with open(index_path, 'r') as index_f:
         picked = []
         for line in index_f:

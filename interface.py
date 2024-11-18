@@ -16,6 +16,9 @@ def ls(args: dict):
     if size is None or size == '':
         size = 100
     notes = engine.ls(marker, size, tag)
+    if len(notes) == 0:
+        return 'fia: Sorry, you has no data.'
+
     r = ''
     if args['verbose']:
         for note in notes:
