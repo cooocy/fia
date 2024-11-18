@@ -5,6 +5,7 @@ import base64
 import config_loader
 import kits
 import os.path
+from colorama import Fore, Style
 from datetime import datetime
 from domains import Note
 
@@ -136,7 +137,7 @@ def find_by_id_or_alias(id_or_alias: str):
             with open(__get_content_path(note.id), 'r') as content_f:
                 note.content = content_f.read()
         else:
-            print(f'fia: The index not match the content, please rm the note(id: {note.id})')
+            print(f'{Fore.RED}fia: The index not match the content, please rm the note(id: {note.id}){Style.RESET_ALL}')
     return note
 
 
