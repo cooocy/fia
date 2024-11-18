@@ -8,6 +8,10 @@ It allows you to create, read, update, and delete notes directly from your termi
 
 What is even more amazing is that she can directly operate your system clipboard.
 
+![help.pny](attachments/help.png "help.png")
+![cat.pny](attachments/cat.png "cat.png")
+![ls.pny](attachments/ls.png "ls.png")
+
 ## Features
 
 - **Create Note**: Quickly jot down thoughts and save them.
