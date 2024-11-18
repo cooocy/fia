@@ -22,15 +22,13 @@ def __get_content_path(__id: str):
 
 def __deserialize_from_index(line: str) -> Note:
     blobs = line.split(INDEX_SEPARATOR)
-    tags_str = blobs[2].replace(' ', '').replace("'", "").replace('[', '').replace(']', '')
     ts = datetime.strptime(blobs[3], '%Y-%m-%d %H:%M:%S.%f')
-    return Note(blobs[0], base64.b64decode(blobs[4].encode()).decode(), blobs[1], tags_str.split(','), ts)
+    return Note(blobs[0], base64.b64decode(blobs[4].encode()).decode(), blobs[1], blobs[2].split(','), ts)
 
 
 def __serialize_to_index(note: Note) -> str:
-    # Truncate the first 25 chars for encoding.
-    encoded_content = base64.b64encode(note.content[:min(25, len(note.content))].encode()).decode()
-    return f'{note.id}{INDEX_SEPARATOR}{note.alias}{INDEX_SEPARATOR}{note.tags}{INDEX_SEPARATOR}{note.ts}{INDEX_SEPARATOR}{encoded_content}'
+    encoded_content = base64.b64encode(note.content_overview().encode()).decode()
+    return f'{note.id}{INDEX_SEPARATOR}{note.alias}{INDEX_SEPARATOR}{note.tags_overview()}{INDEX_SEPARATOR}{note.ts}{INDEX_SEPARATOR}{encoded_content}'
 
 
 def save(note: Note):

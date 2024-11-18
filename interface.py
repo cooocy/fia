@@ -32,13 +32,13 @@ def ls(args: dict) -> str:
                            Fore.CYAN + 'tag' + Style.RESET_ALL, Fore.CYAN + 'ts' + Style.RESET_ALL,
                            Fore.CYAN + 'content' + Style.RESET_ALL]
         for note in notes:
-            tbl.add_row([note.id, note.alias, note.tags_overview(), note.ts, note.content_overview()])
+            tbl.add_row([note.id, note.alias, note.tags_overview(), note.ts, note.content])
 
     else:
         tbl.field_names = [Fore.CYAN + 'id' + Style.RESET_ALL, Fore.CYAN + 'alias' + Style.RESET_ALL,
                            Fore.CYAN + 'content' + Style.RESET_ALL]
         for note in notes:
-            tbl.add_row([note.id, note.alias, note.content_overview()])
+            tbl.add_row([note.id, note.alias, note.content])
     return tbl.__str__()
 
 
