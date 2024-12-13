@@ -13,7 +13,7 @@ INDEX_SEPARATOR = '%'
 storage = config_loader.storage__
 if not os.path.exists(storage.path):
     os.makedirs(storage.path)
-index_path = os.path.join(kits.current_path(), storage.path, 'index')
+index_path = os.path.join(storage.path, 'index')
 
 
 def __get_content_path(__id: str):
