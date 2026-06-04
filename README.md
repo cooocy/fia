@@ -25,9 +25,10 @@ To install Fia, simply clone the repository and run the setup script:
 
 ```shell
 git clone --depth=1 git@github.com:cooocy/fia.git
-cd fia & pip3 install -r requirements
-# Add alias in your shell. like this
-alias fia="python $HOME/fia/fia.py"
+cd fia
+python -m venv .venv
+source .venv/bin/activate.fish
+python -m pip install -r requirements.txt
 ```
 
 And then Modify the value in the configuration file `.config.yaml`.

@@ -25,9 +25,10 @@ Fia 是一个简单高效的命令行笔记助手，旨在帮助你轻松管理�
 
 ```shell
 git clone --depth=1 git@github.com:cooocy/fia.git
-cd fia & pip3 install -r requirements
-# 在你的 shell 中添加别名，如下所示
-alias fia="python $HOME/fia/fia.py"
+cd fia
+python -m venv .venv
+source .venv/bin/activate.fish
+python -m pip install -r requirements.txt
 ```
 
 然后修改配置文件 .config.yaml 中的值。
