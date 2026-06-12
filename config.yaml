@@ -1,2 +1,2 @@
 storage:
-  path: /Users/cooocy/kits/fia/storage/
+  path: ${MINE_TOOLS}/fia/storage/

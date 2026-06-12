@@ -31,7 +31,9 @@ source .venv/bin/activate.fish
 python -m pip install -r requirements.txt
 ```
 
-And then Modify the value in the configuration file `.config.yaml`.
+Then modify the values in `config.yaml`. Configuration values support
+`${VARIABLE}` environment variable expressions and `${VARIABLE:default}`
+fallback values.
 
 ## Run
 

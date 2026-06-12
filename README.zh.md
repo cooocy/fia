@@ -31,7 +31,8 @@ source .venv/bin/activate.fish
 python -m pip install -r requirements.txt
 ```
 
-然后修改配置文件 .config.yaml 中的值。
+然后修改配置文件 `config.yaml` 中的值。配置值支持使用 `${变量名}` 读取环境变量，
+也支持使用 `${变量名:默认值}` 在环境变量不存在时指定默认值。
 
 ## 运行
 
