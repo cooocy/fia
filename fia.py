@@ -15,8 +15,8 @@ if __name__ == '__main__':
 
     # fia w [-h] [-c CONTENT] [-a <ALIAS>] [-t <TAG>]
     w = subparsers.add_parser('w', help='Write your note into fia.')
-    w.add_argument('-c', '--content', type=str, default='', required=False,
-                   help='the note content you want to write. if not specified, read from the clipboard')
+    w.add_argument('-c', '--content', type=str, default=None, required=False,
+                   help='the note content you want to write. if not specified, read from stdin or the clipboard')
     w.add_argument('-a', '--alias', type=str, default='', required=False,
                    help='the alise of this note, global unique, override when duplicate')
     w.add_argument('-t', '--tag', type=str, default=[], required=False, nargs='+', help='the tags of this note')
@@ -38,4 +38,5 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
     ret = getattr(interface, args.sub_cmd)(vars(args))
-    print(ret)
+    if ret is not None:
+        print(ret)

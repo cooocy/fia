@@ -39,6 +39,26 @@ fallback values.
 
 Execute `fia --help` in the command line and then refer to the document.
 
+Write a note from a pipe or redirected file:
+
+```shell
+printf 'hello\nworld\n' | fia w -a greeting
+fia w -a changelog < CHANGELOG.md
+```
+
+When `-c/--content` is provided, it takes precedence over stdin. Without
+explicit content, Fia reads redirected stdin first and falls back to the system
+clipboard only when run interactively. Input from stdin is stored exactly,
+including trailing newlines.
+
+`fia cat` writes the exact note content to stdout, so it can be redirected or
+piped to another command without extra output:
+
+```shell
+fia cat greeting | wc -l
+fia cat greeting > greeting.txt
+```
+
 ```shell
 fia --help
 

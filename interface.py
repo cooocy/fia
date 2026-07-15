@@ -5,6 +5,7 @@ Additionally, assemble the result to stdout.
 import clipboard
 import colorama
 import engine
+import sys
 
 from colorama import Fore, Style
 from prettytable import PrettyTable
@@ -44,11 +45,14 @@ def ls(args: dict) -> str:
 
 def w(args: dict) -> str:
     content = args['content']
+    if content is None:
+        if sys.stdin.isatty():
+            content = clipboard.get().decode()
+        else:
+            content = sys.stdin.read()
     if content == '':
-        content = str(clipboard.get().decode())
-    if content == '':
-        print(f'{Fore.RED}fia: Can not read from clipboard.{Style.RESET_ALL}')
-        exit(1)
+        print(f'{Fore.RED}fia: Note content can not be empty.{Style.RESET_ALL}', file=sys.stderr)
+        raise SystemExit(1)
     if any(t.__contains__(',') for t in args['tag']):
         print(f'{Fore.RED}fia: Tag can not contains `,`.{Style.RESET_ALL}')
         exit(1)
@@ -71,11 +75,12 @@ def clean(args: dict) -> str:
         return f'{Fore.GREEN}fia: Canceled.{Style.RESET_ALL}'
 
 
-def cat(args: dict) -> str:
+def cat(args: dict) -> str | None:
     id_or_alias = args['id_or_alias']
     note = engine.find_by_id_or_alias(id_or_alias)
     if not note:
-        return f'{Fore.RED}fia: Not found.{Style.RESET_ALL}'
+        print(f'{Fore.RED}fia: Not found.{Style.RESET_ALL}', file=sys.stderr)
+        raise SystemExit(1)
 
     if args['clipboard']:
         clipboard.set(note.content)
@@ -84,4 +89,5 @@ def cat(args: dict) -> str:
         if args['verbose']:
             return f'{Fore.GREEN}note{Style.RESET_ALL}'
         else:
-            return note.content
+            sys.stdout.write(note.content)
+            return None

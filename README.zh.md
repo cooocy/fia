@@ -38,6 +38,25 @@ python -m pip install -r requirements.txt
 
 在命令行执行 `fia --help`，参考帮助文档即可。
 
+通过管道或文件重定向创建笔记：
+
+```shell
+printf 'hello\nworld\n' | fia w -a greeting
+fia w -a changelog < CHANGELOG.md
+```
+
+显式传入 `-c/--content` 时，其优先级高于 stdin。未传入内容参数时，Fia
+会优先读取重定向的 stdin；只有在交互式终端中才回退到系统剪贴板。stdin
+内容会原样保存，包括尾部换行。
+
+`fia cat` 会将笔记原文精确写入 stdout，不附加额外内容，因此可以安全地
+重定向或通过管道交给其他命令：
+
+```shell
+fia cat greeting | wc -l
+fia cat greeting > greeting.txt
+```
+
 ```shell
 fia --help
 
